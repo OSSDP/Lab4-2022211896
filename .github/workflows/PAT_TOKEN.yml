@@ -28,19 +28,23 @@ jobs:
         uses: actions/checkout@v2
 
       # 2. 触发 tests 工作流
-      - name: Trigger tests workflow
-        uses: peter-evans/workflow-dispatch@v1
+      - name: Trigger tests workflow via GitHub API
+        uses: actions/github-script@v5
         with:
-          workflow: tests.yml  # 指向你定义的 tests.yml 工作流文件
-          ref: ${{ github.sha }}  # 使用当前的 commit hash
+          script: |
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'tests.yml',  // 你的 tests 工作流的文件名
+              ref: context.sha  // 当前 commit hash
+            });
+            console.log('Triggered workflow response: ', response);
 
       # 3. 等待自动化测试结果
       - name: Wait for tests to complete
         run: |
           echo "Waiting for tests to finish..."
-          # 可选：可以等待一段时间后检查工作流状态
-          # 示例：等待 1分钟
-          sleep 60
+          sleep 60  # 等待60秒，确保测试完成
 
       # 4. 自动添加 'automerge' 标签（如果尚未添加）
       - name: Add automerge label if not present

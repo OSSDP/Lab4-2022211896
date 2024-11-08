@@ -1,4 +1,5 @@
 name: Automerge
+
 on:
   pull_request:
     types:
@@ -20,14 +21,48 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Automerge
+      # 2. 触发 tests 工作流
+      - name: Trigger tests workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: tests.yml  # 指向你定义的 tests.yml 工作流文件
+          ref: ${{ github.sha }}  # 使用当前的 commit hash
+
+      # 3. 等待自动化测试结果
+      - name: Wait for tests to complete
+        run: |
+          echo "Waiting for tests to finish..."
+          # 可选：可以等待一段时间后检查工作流状态
+          # 示例：等待 1分钟
+          sleep 60
+
+      # 4. 自动添加 'automerge' 标签（如果尚未添加）
+      - name: Add automerge label if not present
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = pr.labels.map(label => label.name);
+            if (!labels.includes("automerge")) {
+              await github.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: ["automerge"]
+              });
+            }
+
+      # 5. 自动合并
+      - name: Automerge PR
         uses: "pascalgn/automerge-action@629929da409181990e4e638dcf84a74e11d3af66"
         env:
-          GITHUB_TOKEN: "${{ secrets.ABCD }}"  # 使用PAT_TOKEN替代默认的GITHUB_TOKEN
+          GITHUB_TOKEN: "${{ secrets.abcd }}"  # 使用自定义的PAT或GitHub的默认token
           MERGE_LABELS: "automerge,!work in progress"
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "pull-request-title"

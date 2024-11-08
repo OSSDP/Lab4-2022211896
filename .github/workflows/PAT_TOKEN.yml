@@ -13,15 +13,21 @@ on:
   pull_request_review:
     types:
       - submitted
-  status: {}
+  check_suite:
+    types:
+      - completed
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: automerge
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Automerge
         uses: "pascalgn/automerge-action@629929da409181990e4e638dcf84a74e11d3af66"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.PAT_TOKEN }}"  # 使用PAT_TOKEN替代默认的GITHUB_TOKEN
           MERGE_LABELS: "automerge,!work in progress"
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "pull-request-title"

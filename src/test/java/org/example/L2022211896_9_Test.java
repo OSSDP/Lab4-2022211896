@@ -29,7 +29,7 @@ public class L2022211896_9_Test {
         Solution9 test1=new Solution9();
         int[][] arr1 = {{1,2}};
         boolean test11=test1.possibleBipartition(2,arr1);
-        assertEquals(test11,false);
+        assertEquals(test11,true);
     }
 
 //再测试dislike关系互相无关联的情况，应成功

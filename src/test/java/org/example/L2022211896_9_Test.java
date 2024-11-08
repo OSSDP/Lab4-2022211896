@@ -20,7 +20,7 @@ public class L2022211896_9_Test {
         Solution9 test1=new Solution9();
         int[][] arr1 = {};
         boolean test11=test1.possibleBipartition(3,arr1);
-        assertEquals(test11,false);
+        assertEquals(test11,true);
     }
 
 //测试仅有一对关系的情况，也应成功

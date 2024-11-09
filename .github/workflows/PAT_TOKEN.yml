@@ -41,6 +41,6 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'tests.yml',  # 测试工作流的文件名称
+              workflow_id: 'tests.yml',
               ref: 'main'
             });

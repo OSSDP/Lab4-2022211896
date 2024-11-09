@@ -1,3 +1,4 @@
+permissions: write-all
 name: Automerge
 
 on:
@@ -44,7 +45,7 @@ jobs:
       - name: Wait for tests to complete
         run: |
           echo "Waiting for tests to finish..."
-          sleep 60  # 等待60秒，确保测试完成
+          sleep 20  # 等待60秒，确保测试完成
 
       # 4. 自动添加 'automerge' 标签（如果尚未添加）
       - name: Add automerge label if not present

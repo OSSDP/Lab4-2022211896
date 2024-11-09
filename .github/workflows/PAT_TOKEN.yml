@@ -35,7 +35,7 @@ jobs:
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'tests.yml',  // 你的 tests 工作流的文件名
+              workflow_id: 'prop.yml',  // 你的 tests 工作流的文件名
               ref: context.sha  // 当前 commit hash
             });
             console.log('Triggered workflow response: ', response);

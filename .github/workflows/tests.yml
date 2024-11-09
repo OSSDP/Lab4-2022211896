@@ -7,6 +7,7 @@ on:
   pull_request:  # 当有 PR 时触发
     branches:
       - main
+  workflow_dispatch:  # 允许手动或通过 API 调用触发
 
 jobs:
   run_tests:

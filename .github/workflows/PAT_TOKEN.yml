@@ -1,3 +1,4 @@
+permissions: write-all
 name: Automerge
 
 on:
@@ -66,7 +67,7 @@ jobs:
       - name: Automerge PR
         uses: "pascalgn/automerge-action@629929da409181990e4e638dcf84a74e11d3af66"
         env:
-          GITHUB_TOKEN: "${{ secrets.ABCD }}"  # 使用自定义的PAT或GitHub的默认token
+          GITHUB_TOKEN: "${{ secrets.abcd }}"  # 使用自定义的PAT或GitHub的默认token
           MERGE_LABELS: "automerge,!work in progress"
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
